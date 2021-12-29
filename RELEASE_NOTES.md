@@ -1,5 +1,9 @@
 # Release Notes
 
+## 0.3.0-SNAPSHOT
+* Added a feature for design taco
+* Added a feature for ordering
+
 ## 0.2.0-SNAPSHOT
 * Added a controller class that handles requests for the homepage
 * Added a view template to render the homepage
