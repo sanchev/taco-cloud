@@ -1,22 +1,33 @@
 package com.github.sanchev.tacos.web;
 
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
 import com.github.sanchev.tacos.Ingredient;
-import com.github.sanchev.tacos.Ingredient.Type;
+import com.github.sanchev.tacos.Taco;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Arrays;
-import java.util.List;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import com.github.sanchev.tacos.Ingredient.Type;
+import com.github.sanchev.tacos.data.IngredientRepository;
+import com.github.sanchev.tacos.data.OrderRepository;
+import com.github.sanchev.tacos.web.DesignTacoController;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(DesignTacoController.class)
@@ -26,6 +37,14 @@ public class DesignTacoControllerTest {
     private MockMvc mockMvc;
 
     private List<Ingredient> ingredients;
+
+    private Taco design;
+
+    @MockBean
+    private IngredientRepository ingredientRepository;
+
+    @MockBean
+    private OrderRepository orderRepository;
 
     @BeforeEach
     public void setup() {
@@ -42,6 +61,18 @@ public class DesignTacoControllerTest {
                 new Ingredient("SRCR", "Sour Cream", Type.SAUCE)
         );
 
+        when(ingredientRepository.findAll())
+                .thenReturn(ingredients);
+
+        when(ingredientRepository.findById("FLTO")).thenReturn(Optional.of(new Ingredient("FLTO", "Flour Tortilla", Type.WRAP)));
+        when(ingredientRepository.findById("GRBF")).thenReturn(Optional.of(new Ingredient("GRBF", "Ground Beef", Type.PROTEIN)));
+        when(ingredientRepository.findById("CHED")).thenReturn(Optional.of(new Ingredient("CHED", "Cheddar", Type.CHEESE)));
+        design = new Taco();
+        design.setName("Test Taco");
+
+        design.addIngredient(new Ingredient("FLTO", "Flour Tortilla", Type.WRAP));
+        design.addIngredient(new Ingredient("GRBF", "Ground Beef", Type.PROTEIN));
+        design.addIngredient(new Ingredient("CHED", "Cheddar", Type.CHEESE));
     }
 
     @Test
