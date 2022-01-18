@@ -1,5 +1,11 @@
 package com.github.sanchev.tacos.web;
 
+import static org.hamcrest.Matchers.containsString;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+
 import com.github.sanchev.tacos.data.IngredientRepository;
 import com.github.sanchev.tacos.data.OrderRepository;
 import org.junit.jupiter.api.Test;
@@ -10,30 +16,26 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.hamcrest.Matchers.containsString;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 @ExtendWith(SpringExtension.class)
 @WebMvcTest
 public class HomeControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+  @Autowired
+  private MockMvc mockMvc;
+  
+  @MockBean
+  private IngredientRepository ingredientRepository;
 
-    @MockBean
-    private IngredientRepository ingredientRepository;
+  @MockBean
+  private OrderRepository orderRepository;
 
-    @MockBean
-    private OrderRepository orderRepository;
-
-    @Test
-    public void testHomePage() throws Exception {
-        mockMvc.perform(get("/"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("home"))
-                .andExpect(content().string(
-                        containsString("Welcome to...")));
-    }
+  @Test
+  public void testHomePage() throws Exception {
+    mockMvc.perform(get("/"))
+      .andExpect(status().isOk())
+      .andExpect(view().name("home"))
+      .andExpect(content().string(
+          containsString("Welcome to...")));  
+  }
 
 }

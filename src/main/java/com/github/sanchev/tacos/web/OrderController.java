@@ -1,4 +1,5 @@
 package com.github.sanchev.tacos.web;
+import javax.validation.Valid;
 
 import com.github.sanchev.tacos.TacoOrder;
 import com.github.sanchev.tacos.data.OrderRepository;
@@ -10,34 +11,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
-import javax.validation.Valid;
-
 @Controller
 @RequestMapping("/orders")
 @SessionAttributes("tacoOrder")
 public class OrderController {
 
-    private final OrderRepository orderRepo;
+  private OrderRepository orderRepo;
 
-    public OrderController(OrderRepository orderRepo) {
-        this.orderRepo = orderRepo;
+  public OrderController(OrderRepository orderRepo) {
+    this.orderRepo = orderRepo;
+  }
+
+  @GetMapping("/current")
+  public String orderForm() {
+    return "orderForm";
+  }
+
+  @PostMapping
+  public String processOrder(@Valid TacoOrder order, Errors errors, SessionStatus sessionStatus) {
+    if (errors.hasErrors()) {
+      return "orderForm";
     }
 
-    @GetMapping("/current")
-    public String orderForm() {
-        return "orderForm";
-    }
+    orderRepo.save(order);
+    sessionStatus.setComplete();
 
-    @PostMapping
-    public String processOrder(@Valid TacoOrder order, Errors errors, SessionStatus sessionStatus) {
-        if (errors.hasErrors()) {
-            return "orderForm";
-        }
-
-        orderRepo.save(order);
-        sessionStatus.setComplete();
-
-        return "redirect:/";
-    }
+    return "redirect:/";
+  }
 
 }

@@ -1,6 +1,11 @@
 package com.github.sanchev.tacos.data;
 
-import com.github.sanchev.tacos.TacoOrder;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface OrderRepository extends CrudRepository<TacoOrder, Long> {}
+import com.github.sanchev.tacos.TacoOrder;
+
+
+public interface OrderRepository 
+         extends MongoRepository<TacoOrder, String> {
+
+}
