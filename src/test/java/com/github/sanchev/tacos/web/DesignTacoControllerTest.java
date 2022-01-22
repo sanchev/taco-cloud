@@ -8,6 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -45,6 +46,7 @@ public class DesignTacoControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "buzz", password = "password", authorities = "ROLE_USER")
     public void testShowDesignForm() throws Exception {
         mockMvc.perform(get("/design"))
                 .andExpect(status().isOk())
@@ -57,6 +59,7 @@ public class DesignTacoControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "buzz", password = "password", authorities = "ROLE_USER")
     public void processTaco() throws Exception {
         mockMvc.perform(post("/design")
                 .content("name=Test+Taco&ingredients=FLTO,GRBF,CHED")

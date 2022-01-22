@@ -3,6 +3,7 @@ package com.github.sanchev.tacos.web;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 
@@ -19,6 +20,7 @@ class HomeControllerTest {
     private MockMvc mockMvc;
 
     @Test
+    @WithMockUser(username = "buzz", password = "password", authorities = "ROLE_USER")
     public void testHomePage() throws Exception {
         mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
