@@ -1,5 +1,9 @@
 # Release Notes
 
+## 0.4.0-SNAPSHOT
+* Added a security 
+* Configure in-memory user details service 
+
 ## 0.3.0-SNAPSHOT
 * Added a feature for design taco
 * Added a feature for ordering
