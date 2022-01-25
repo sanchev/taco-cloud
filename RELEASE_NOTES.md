@@ -1,5 +1,8 @@
 # Release Notes
 
+## 0.5.0-SNAPSHOT
+* Added Spring Security
+
 
 ## 0.4.0-SNAPSHOT
 * Added DB (Spring Data JPA)
