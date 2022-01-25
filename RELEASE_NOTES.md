@@ -1,5 +1,12 @@
 # Release Notes
 
+## 0.5.0-SNAPSHOT
+* Added Spring Security
+
+
+## 0.4.0-SNAPSHOT
+* Added DB (Spring Data JPA)
+
 ## 0.3.0-SNAPSHOT
 * Added a feature for design taco
 * Added a feature for ordering
